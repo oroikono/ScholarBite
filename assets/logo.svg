@@ -12,37 +12,80 @@
       <stop offset="0%" style="stop-color:#f0c27f"/>
       <stop offset="100%" style="stop-color:#e2a04f"/>
     </linearGradient>
+    <!-- Clip path for bite mark on right page corner -->
+    <clipPath id="bite-clip">
+      <path d="M0,0 L512,0 L512,512 L0,512 Z
+               M355,195
+               C348,200 344,208 344,215
+               C344,222 348,228 353,232
+               C347,236 344,242 344,248
+               C344,257 350,264 358,267
+               C358,274 363,280 370,283
+               C370,290 375,296 382,298
+               L390,210
+               C383,208 377,203 374,197
+               C368,199 361,199 355,195 Z" fill-rule="evenodd"/>
+    </clipPath>
   </defs>
 
   <!-- Background circle -->
   <circle cx="256" cy="256" r="240" fill="url(#bg)" stroke="#e94560" stroke-width="4"/>
 
-  <!-- Open book -->
-  <g transform="translate(256, 290)">
+  <!-- Open book with bite taken out of top-right corner -->
+  <g transform="translate(256, 280)">
     <!-- Left page -->
     <path d="M-10,0 L-10,-100 Q-10,-110 -20,-110 L-110,-110 Q-120,-110 -120,-100 L-120,20 Q-120,30 -110,30 L-10,30 Z" fill="#f8f8f8" opacity="0.95"/>
-    <!-- Right page -->
-    <path d="M10,0 L10,-100 Q10,-110 20,-110 L110,-110 Q120,-110 120,-100 L120,20 Q120,30 110,30 L10,30 Z" fill="#ececec" opacity="0.95"/>
+
+    <!-- Right page with bite chunk missing from top-right -->
+    <path d="M10,0 L10,-100 Q10,-110 20,-110 L80,-110
+             C76,-103 74,-95 74,-87
+             C74,-78 77,-70 82,-64
+             C77,-58 74,-50 74,-42
+             C74,-33 78,-25 84,-20
+             C80,-14 78,-6 78,2
+             L120,2 L120,20 Q120,30 110,30 L10,30 Z" fill="#ececec" opacity="0.95"/>
+
+    <!-- Bite mark arc teeth (semicircular indentations showing where teeth crunched) -->
+    <!-- Upper tooth mark -->
+    <path d="M80,-110 C76,-103 74,-95 74,-87 C74,-78 77,-70 82,-64"
+          fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.7"/>
+    <!-- Middle tooth mark -->
+    <path d="M82,-64 C77,-58 74,-50 74,-42 C74,-33 78,-25 84,-20"
+          fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.7"/>
+    <!-- Lower tooth mark -->
+    <path d="M84,-20 C80,-14 78,-6 78,2"
+          fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.7"/>
+
+    <!-- Small crumb pieces floating away from the bite -->
+    <rect x="92" y="-105" width="8" height="6" rx="2" fill="#ececec" transform="rotate(-15, 96, -102)" opacity="0.8"/>
+    <rect x="100" y="-88" width="6" height="5" rx="2" fill="#f8f8f8" transform="rotate(20, 103, -85)" opacity="0.7"/>
+    <rect x="95" y="-50" width="7" height="5" rx="2" fill="#ececec" transform="rotate(-10, 98, -47)" opacity="0.6"/>
+    <rect x="90" y="-30" width="5" height="4" rx="1.5" fill="#f8f8f8" transform="rotate(25, 92, -28)" opacity="0.5"/>
+
     <!-- Spine -->
     <path d="M-10,-110 Q0,-120 10,-110 L10,30 Q0,35 -10,30 Z" fill="#d4d4d4"/>
-    <!-- Text lines left -->
+
+    <!-- Text lines left page -->
     <line x1="-100" y1="-85" x2="-25" y2="-85" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="-100" y1="-70" x2="-30" y2="-70" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="-100" y1="-55" x2="-35" y2="-55" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="-100" y1="-40" x2="-25" y2="-40" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="-100" y1="-25" x2="-40" y2="-25" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="-100" y1="-10" x2="-30" y2="-10" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
-    <!-- Text lines right -->
-    <line x1="25" y1="-85" x2="100" y2="-85" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
-    <line x1="30" y1="-70" x2="100" y2="-70" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
-    <line x1="35" y1="-55" x2="100" y2="-55" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
-    <line x1="25" y1="-40" x2="100" y2="-40" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Text lines right page (some cut short by the bite) -->
+    <line x1="25" y1="-85" x2="65" y2="-85" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="30" y1="-70" x2="68" y2="-70" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="35" y1="-55" x2="70" y2="-55" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="-40" x2="72" y2="-40" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="30" y1="-25" x2="100" y2="-25" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
     <line x1="35" y1="-10" x2="100" y2="-10" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="5" x2="100" y2="5" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="30" y1="20" x2="100" y2="20" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
   </g>
 
   <!-- Graduation cap -->
-  <g transform="translate(256, 155)">
+  <g transform="translate(256, 145)">
     <!-- Cap top (diamond shape) -->
     <polygon points="0,-35 100,0 0,20 -100,0" fill="url(#accent)"/>
     <!-- Cap button -->
@@ -54,11 +97,6 @@
     <line x1="26" y1="60" x2="26" y2="72" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
     <line x1="30" y1="60" x2="30" y2="75" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
     <line x1="34" y1="60" x2="34" y2="70" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
-  </g>
-
-  <!-- Lightning bolt / "bite" mark on the book -->
-  <g transform="translate(310, 240)">
-    <polygon points="0,0 -12,25 5,22 -8,50 20,18 3,21 15,0" fill="url(#accent)" opacity="0.9"/>
   </g>
 
   <!-- Text: ScholarBite -->
