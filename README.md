@@ -1,6 +1,10 @@
-# ScholarBite 🎓
+<p align="center">
+  <img src="assets/logo.svg" alt="ScholarBite Logo" width="200"/>
+</p>
 
-**Your AI-powered daily arXiv research companion** — powered by [nanobot](https://github.com/HKUDS/nanobot).
+<h1 align="center">ScholarBite</h1>
+
+<p align="center"><strong>Your AI-powered daily arXiv research companion</strong> — powered by <a href="https://github.com/HKUDS/nanobot">nanobot</a></p>
 
 ScholarBite automatically discovers, summarizes, and delivers relevant research papers from arXiv to your Slack or WhatsApp every morning. Then you can **chat back** to ask follow-up questions about any paper.
 
