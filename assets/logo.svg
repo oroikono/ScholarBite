@@ -100,6 +100,6 @@
   </g>
 
   <!-- ==================== TEXT ==================== -->
-  <text x="185" y="85" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="bold" fill="#1a1a2e" letter-spacing="1">Scholar<tspan fill="url(#accent)">Bite</tspan></text>
+  <text x="185" y="85" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="bold" fill="#4a4a5a" letter-spacing="1">Scholar<tspan fill="url(#accent)">Bite</tspan></text>
   <text x="187" y="112" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" fill="#888" letter-spacing="5">DAILY ARXIV COMPANION</text>
 </svg>
