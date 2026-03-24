@@ -189,12 +189,16 @@ Then configure nanobot to use it:
 
 ### Provider Comparison
 
-| Provider | Cost | Quality | Privacy | Setup |
-|----------|------|---------|---------|-------|
-| **Ollama (local)** | Free | Good (7B+) | Full privacy | Install Ollama + pull model |
-| **OpenRouter** | ~$0.01-0.10/report | Excellent | Cloud | Get API key |
-| **Anthropic** | ~$0.05-0.15/report | Excellent | Cloud | Get API key |
-| **OpenAI** | ~$0.03-0.10/report | Very good | Cloud | Get API key |
+Cost estimates are based on a typical daily report: ~15 paper abstracts (~200 tokens each) summarized into a digest (~800 tokens output). Roughly 4K input + 1K output tokens per report. Costs vary with model choice.
+
+| Provider | Est. Cost / Report | Privacy | Setup |
+|----------|-------------------|---------|-------|
+| **Ollama (local)** | Free | Full privacy | Install Ollama + pull model |
+| **OpenRouter** | $0.01–0.10 | Cloud | Get API key |
+| **Anthropic** | $0.05–0.15 | Cloud | Get API key |
+| **OpenAI** | $0.03–0.10 | Cloud | Get API key |
+
+> Costs scale linearly with the number of follow-up questions you ask. Each question adds roughly one abstract worth of tokens.
 
 ---
 
