@@ -236,6 +236,59 @@ Memory is stored locally in `~/.nanobot/workspace/memory/` — your data stays o
 
 ---
 
+## Privacy & Security
+
+### Where does your data go?
+
+ScholarBite has three data flows. Here's exactly what goes where:
+
+| Data | Where it goes | Stored where |
+|------|--------------|--------------|
+| Your research keywords & categories | arXiv API (public, no auth needed) | Local config files |
+| Paper abstracts + your questions | Your chosen LLM provider | Not stored by ScholarBite (check provider's policy) |
+| Conversation history & memory | Nowhere — stays on your machine | `~/.nanobot/workspace/memory/` |
+| Daily reports | Slack or WhatsApp servers | Same as any message on that platform |
+
+**If privacy matters most:** use Ollama (local LLM) so paper abstracts and your questions never leave your machine. The only external call is to the arXiv API, which is public and requires no authentication.
+
+### Slack: Which organizations work?
+
+**You can use ScholarBite in any Slack workspace where custom apps are allowed.** Here's how to check:
+
+1. Go to [api.slack.com/apps](https://api.slack.com/apps) and click "Create New App"
+2. Select your workspace from the dropdown
+3. If it appears → you're good. If it doesn't → your org restricts custom apps.
+
+**If your organization restricts custom apps:**
+
+- Ask your Slack admin to approve the app, or add it to the workspace's allowed apps list. The app only needs three scopes: `chat:write`, `channels:read`, `channels:history` — no access to DMs, no admin privileges.
+- Alternatively, create a **free personal Slack workspace** just for ScholarBite. You can be the only member — it works fine as a personal research feed.
+- Or skip Slack entirely and use **WhatsApp or Telegram**, which have no organizational restrictions.
+
+**Socket Mode (how ScholarBite connects to Slack):**
+
+ScholarBite uses Slack's Socket Mode, which means:
+- No public URL or server required — the bot connects outbound via WebSocket
+- No incoming webhooks exposed to the internet
+- Works behind firewalls and NATs
+- Your Slack admin can verify the app only requests minimal permissions
+
+### WhatsApp
+
+WhatsApp messages go through WhatsApp/Meta's servers (same as any WhatsApp message). The nanobot bridge runs locally on your machine and connects via QR code — no WhatsApp Business API or Meta developer account needed.
+
+### Local LLM = Maximum Privacy
+
+For the most private setup:
+
+```
+You → ScholarBite (local) → arXiv API (public, read-only) → Ollama (local) → Slack/WhatsApp
+```
+
+The only data that leaves your network is the arXiv query (public search terms) and the formatted report sent to your chat platform. Paper analysis, scoring, and summarization all happen locally.
+
+---
+
 ## Configuration
 
 ### Research Interests (`workspace/USER.md`)
