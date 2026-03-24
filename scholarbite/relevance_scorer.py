@@ -1,4 +1,9 @@
-"""Score papers for relevance against a research profile."""
+"""Score papers for relevance against a research profile.
+
+Scoring is metadata-only: we use title, abstract, categories, and the
+presence of code links. No PDF parsing needed — the arXiv metadata
+carries enough signal to rank papers effectively.
+"""
 
 
 def score_paper(
@@ -6,10 +11,16 @@ def score_paper(
     keywords: list[str],
     categories: list[str],
 ) -> float:
-    """Score a paper's relevance (0-10) based on keyword and category match.
+    """Score a paper's relevance (0-10) based on metadata signals.
+
+    Scoring breakdown:
+        - Keyword in title:    +2 each (max 6 total from keywords)
+        - Keyword in abstract: +1 each (max 6 total from keywords)
+        - Category overlap:    +1 each (max 3)
+        - Code available:      +1
 
     Args:
-        paper: Paper dict from arxiv_fetcher
+        paper: Paper metadata dict from arxiv_fetcher
         keywords: User's research keywords
         categories: User's preferred arXiv categories
 
@@ -37,7 +48,7 @@ def score_paper(
     score += min(overlap, 3)
 
     # Code availability bonus (1 point)
-    if paper.get("code_url"):
+    if paper.get("code_url") or paper.get("has_code"):
         score += 1
 
     return min(score, 10.0)
