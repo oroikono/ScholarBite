@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#ff6b6b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0c27f"/>
+      <stop offset="100%" style="stop-color:#e2a04f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#bg)" stroke="#e94560" stroke-width="4"/>
+
+  <!-- Open book -->
+  <g transform="translate(256, 290)">
+    <!-- Left page -->
+    <path d="M-10,0 L-10,-100 Q-10,-110 -20,-110 L-110,-110 Q-120,-110 -120,-100 L-120,20 Q-120,30 -110,30 L-10,30 Z" fill="#f8f8f8" opacity="0.95"/>
+    <!-- Right page -->
+    <path d="M10,0 L10,-100 Q10,-110 20,-110 L110,-110 Q120,-110 120,-100 L120,20 Q120,30 110,30 L10,30 Z" fill="#ececec" opacity="0.95"/>
+    <!-- Spine -->
+    <path d="M-10,-110 Q0,-120 10,-110 L10,30 Q0,35 -10,30 Z" fill="#d4d4d4"/>
+    <!-- Text lines left -->
+    <line x1="-100" y1="-85" x2="-25" y2="-85" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-100" y1="-70" x2="-30" y2="-70" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-100" y1="-55" x2="-35" y2="-55" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-100" y1="-40" x2="-25" y2="-40" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-100" y1="-25" x2="-40" y2="-25" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-100" y1="-10" x2="-30" y2="-10" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <!-- Text lines right -->
+    <line x1="25" y1="-85" x2="100" y2="-85" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="30" y1="-70" x2="100" y2="-70" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="35" y1="-55" x2="100" y2="-55" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="25" y1="-40" x2="100" y2="-40" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="30" y1="-25" x2="100" y2="-25" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+    <line x1="35" y1="-10" x2="100" y2="-10" stroke="#ccc" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Graduation cap -->
+  <g transform="translate(256, 155)">
+    <!-- Cap top (diamond shape) -->
+    <polygon points="0,-35 100,0 0,20 -100,0" fill="url(#accent)"/>
+    <!-- Cap button -->
+    <circle cx="0" cy="-35" r="8" fill="url(#gold)"/>
+    <!-- Tassel string -->
+    <path d="M0,-35 Q30,-25 35,5 Q38,25 30,45" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+    <!-- Tassel end -->
+    <rect x="24" y="40" width="12" height="20" rx="3" fill="url(#gold)"/>
+    <line x1="26" y1="60" x2="26" y2="72" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
+    <line x1="30" y1="60" x2="30" y2="75" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
+    <line x1="34" y1="60" x2="34" y2="70" stroke="#e2a04f" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Lightning bolt / "bite" mark on the book -->
+  <g transform="translate(310, 240)">
+    <polygon points="0,0 -12,25 5,22 -8,50 20,18 3,21 15,0" fill="url(#accent)" opacity="0.9"/>
+  </g>
+
+  <!-- Text: ScholarBite -->
+  <text x="256" y="430" text-anchor="middle" font-family="Georgia, serif" font-size="46" font-weight="bold" fill="#f8f8f8" letter-spacing="2">Scholar<tspan fill="url(#accent)">Bite</tspan></text>
+
+  <!-- Subtitle -->
+  <text x="256" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#888" letter-spacing="4">DAILY ARXIV COMPANION</text>
+</svg>
