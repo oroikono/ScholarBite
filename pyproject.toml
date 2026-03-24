@@ -1,0 +1,17 @@
+[project]
+name = "scholarbite"
+version = "0.1.0"
+description = "AI-powered daily arXiv research companion powered by nanobot"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "arxiv>=2.1.0",
+    "nanobot-ai",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
