@@ -25,14 +25,111 @@
       color: var(--text);
       background: var(--bg);
       line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* --- Sticky Nav --- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(26, 26, 46, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0 24px;
+      transform: translateY(-100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav.visible { transform: translateY(0); }
+
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      color: #fff;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #a0a0b8;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 0.8rem; }
     }
 
     /* --- Hero --- */
     .hero {
+      position: relative;
+      overflow: hidden;
       background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
       color: #fff;
       padding: 80px 20px 100px;
       text-align: center;
+      animation: heroGradient 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroGradient {
+      0%   { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+      50%  { background: linear-gradient(135deg, #16213e 0%, #1a1a2e 50%, #1b1040 100%); }
+      100% { background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%); }
+    }
+
+    .hero canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .hero > *:not(canvas) {
+      position: relative;
+      z-index: 1;
     }
 
     .hero-logo {
@@ -112,15 +209,33 @@
     }
 
     .feature-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
       padding: 32px 28px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      cursor: default;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(233, 69, 96, 0.12), 0 8px 24px rgba(0, 0, 0, 0.06);
+      border-color: rgba(233, 69, 96, 0.3);
     }
 
     .feature-card .icon {
       font-size: 2rem;
       margin-bottom: 16px;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .icon {
+      transform: scale(1.2) rotate(-5deg);
     }
 
     .feature-card h3 {
@@ -178,10 +293,24 @@
       line-height: 1.8;
     }
 
-    .chat-line { margin-bottom: 8px; }
+    .chat-line { margin-bottom: 8px; min-height: 1.8em; }
     .chat-user { color: #6ecf6e; }
     .chat-bot { color: #a0a0b8; }
     .chat-highlight { color: var(--accent-light); }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent-light);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.7s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
 
     /* --- Providers --- */
     .providers {
@@ -191,15 +320,25 @@
     }
 
     .provider-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
       padding: 24px;
       text-align: center;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .provider-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(233, 69, 96, 0.1), 0 4px 16px rgba(0, 0, 0, 0.05);
     }
 
     .provider-card h3 { font-size: 1.1rem; margin-bottom: 6px; }
-    .provider-card .cost { color: var(--accent); font-weight: 600; font-size: 1.2rem; }
+    .provider-card .cost { color: var(--accent); font-weight: 600; font-size: 1.2rem; transition: transform 0.3s ease; }
+    .provider-card:hover .cost { transform: scale(1.1); }
     .provider-card p { color: var(--text-light); font-size: 0.85rem; margin-top: 6px; }
 
     /* --- Privacy --- */
@@ -210,10 +349,19 @@
     }
 
     .privacy-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px;
       padding: 28px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .privacy-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
     }
 
     .privacy-card h3 { margin-bottom: 8px; }
@@ -258,6 +406,238 @@
     .code-block .comment { color: #6b6b80; }
     .code-block .cmd { color: #6ecf6e; }
 
+    /* --- Stats --- */
+    .stats-bar {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+      padding: 48px 24px;
+    }
+
+    .stats-grid {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-item .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .stat-item .stat-label {
+      font-size: 0.9rem;
+      color: #a0a0b8;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item .stat-number { font-size: 2rem; }
+    }
+
+    /* --- Live Demo --- */
+    .demo-search {
+      display: flex;
+      gap: 12px;
+      max-width: 560px;
+      margin: 0 auto 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .demo-search input {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 20px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      background: var(--card-bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .demo-search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
+    }
+
+    .demo-search button {
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .demo-search button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+    }
+
+    .demo-search button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .demo-results {
+      display: grid;
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .demo-paper {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: paperSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .demo-paper:nth-child(1) { animation-delay: 0s; }
+    .demo-paper:nth-child(2) { animation-delay: 0.08s; }
+    .demo-paper:nth-child(3) { animation-delay: 0.16s; }
+    .demo-paper:nth-child(4) { animation-delay: 0.24s; }
+    .demo-paper:nth-child(5) { animation-delay: 0.32s; }
+
+    @keyframes paperSlideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .demo-paper:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+
+    .demo-paper h4 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+
+    .demo-paper h4 a {
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .demo-paper h4 a:hover { color: var(--accent); }
+
+    .demo-paper .authors {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .demo-paper .summary {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .demo-paper .score-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .demo-placeholder {
+      text-align: center;
+      color: var(--text-light);
+      padding: 40px 20px;
+      font-size: 0.95rem;
+    }
+
+    .demo-spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* --- Scroll Reveal --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Staggered children */
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: 0.2s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; }
+    .stagger.visible > *:nth-child(5) { transition-delay: 0.35s; }
+    .stagger.visible > *:nth-child(6) { transition-delay: 0.4s; }
+
+    .stagger.visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* --- Responsive --- */
     @media (max-width: 640px) {
       .hero h1 { font-size: 2.2rem; }
@@ -268,8 +648,23 @@
 </head>
 <body>
 
+  <!-- Sticky Nav -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">Scholar<span>Bite</span></a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">Pipeline</a>
+        <a href="#demo">Live Demo</a>
+        <a href="#providers">LLMs</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- Hero -->
-  <div class="hero">
+  <div class="hero" id="hero">
+    <canvas id="particles"></canvas>
     <img src="logo-white.svg" alt="ScholarBite" class="hero-logo">
     <h1>Scholar<span>Bite</span></h1>
     <p class="tagline">Your AI-powered daily arXiv research companion. Fresh papers, summarized and ranked, delivered to Slack or WhatsApp every morning.</p>
@@ -279,12 +674,34 @@
     </div>
   </div>
 
+  <!-- Stats -->
+  <div class="stats-bar reveal" id="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-target="50">0</div>
+        <div class="stat-label">arXiv Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="15">0</div>
+        <div class="stat-label">Papers per Digest</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="4">0</div>
+        <div class="stat-label">LLM Providers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="100">0</div>
+        <div class="stat-label">% Open Source</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Features -->
-  <section>
+  <section id="features">
     <div class="container">
-      <h2>What it does</h2>
-      <p class="subtitle">Stop scrolling arXiv. Start reading what matters.</p>
-      <div class="features-grid">
+      <h2 class="reveal">What it does</h2>
+      <p class="subtitle reveal">Stop scrolling arXiv. Start reading what matters.</p>
+      <div class="features-grid stagger reveal">
         <div class="feature-card">
           <div class="icon">&#x1F4E8;</div>
           <h3>Morning Digest</h3>
@@ -320,11 +737,11 @@
   </section>
 
   <!-- How it works -->
-  <section style="background: #f0f0f5;">
+  <section id="how-it-works" style="background: #f0f0f5;">
     <div class="container">
-      <h2>How it works</h2>
-      <p class="subtitle">Metadata-first architecture. Fast, cheap, accurate.</p>
-      <div class="steps">
+      <h2 class="reveal">How it works</h2>
+      <p class="subtitle reveal">Metadata-first architecture. Fast, cheap, accurate.</p>
+      <div class="steps stagger reveal">
         <div class="step">
           <h3>Fetch</h3>
           <p>Query arXiv API for papers in your categories from the last 24 hours</p>
@@ -345,30 +762,36 @@
     </div>
   </section>
 
-  <!-- Chat demo -->
-  <section>
+  <!-- Live Demo -->
+  <section id="demo">
     <div class="container">
-      <h2>Talk to your papers</h2>
-      <p class="subtitle">Not just notifications. A research companion.</p>
-      <div class="chat-demo">
-        <div class="chat-line"><span class="chat-user">You:</span> Tell me more about paper #3</div>
-        <div class="chat-line"><span class="chat-bot">ScholarBite:</span> That paper proposes a new RAG pipeline that reduces hallucination by 40% using <span class="chat-highlight">retrieval verification chains</span>. The key insight is...</div>
-        <div class="chat-line">&nbsp;</div>
-        <div class="chat-line"><span class="chat-user">You:</span> Does it have code?</div>
-        <div class="chat-line"><span class="chat-bot">ScholarBite:</span> Yes &mdash; PyTorch implementation at <span class="chat-highlight">github.com/author/rag-verify</span>. Uses HuggingFace Transformers, tested on NQ and TriviaQA.</div>
-        <div class="chat-line">&nbsp;</div>
-        <div class="chat-line"><span class="chat-user">You:</span> How does it compare to yesterday's paper on CRAG?</div>
-        <div class="chat-line"><span class="chat-bot">ScholarBite:</span> Both tackle RAG hallucination but from different angles. Yesterday's CRAG paper uses <span class="chat-highlight">corrective retrieval</span> post-hoc, while this one embeds verification into the generation loop...</div>
+      <h2 class="reveal">Try it live</h2>
+      <p class="subtitle reveal">Search arXiv right now. Real papers, real-time.</p>
+      <div class="demo-search reveal">
+        <input type="text" id="demo-query" placeholder="e.g. transformer, diffusion model, RLHF..." value="retrieval augmented generation">
+        <button id="demo-btn" onclick="fetchArxiv()">Search arXiv</button>
+      </div>
+      <div class="demo-results" id="demo-results">
+        <div class="demo-placeholder">Enter a topic and hit search to see recent papers</div>
       </div>
     </div>
   </section>
 
-  <!-- Providers -->
-  <section style="background: #f0f0f5;">
+  <!-- Chat demo -->
+  <section>
     <div class="container">
-      <h2>Works with any LLM</h2>
-      <p class="subtitle">Cloud APIs or local models. Your choice.</p>
-      <div class="providers">
+      <h2 class="reveal">Talk to your papers</h2>
+      <p class="subtitle reveal">Not just notifications. A research companion.</p>
+      <div class="chat-demo reveal" id="chat-demo"></div>
+    </div>
+  </section>
+
+  <!-- Providers -->
+  <section id="providers" style="background: #f0f0f5;">
+    <div class="container">
+      <h2 class="reveal">Works with any LLM</h2>
+      <p class="subtitle reveal">Cloud APIs or local models. Your choice.</p>
+      <div class="providers stagger reveal">
         <div class="provider-card">
           <h3>Ollama</h3>
           <div class="cost">Free</div>
@@ -396,9 +819,9 @@
   <!-- Quick start -->
   <section>
     <div class="container">
-      <h2>Up and running in 5 minutes</h2>
-      <p class="subtitle">Clone, configure, launch.</p>
-      <div class="code-block">
+      <h2 class="reveal">Up and running in 5 minutes</h2>
+      <p class="subtitle reveal">Clone, configure, launch.</p>
+      <div class="code-block reveal">
         <span class="comment"># Install</span><br>
         <span class="cmd">pip install nanobot-ai</span><br><br>
         <span class="comment"># Clone &amp; configure</span><br>
@@ -413,11 +836,11 @@
   </section>
 
   <!-- Privacy -->
-  <section style="background: #f0f0f5;">
+  <section id="privacy" style="background: #f0f0f5;">
     <div class="container">
-      <h2>Privacy &amp; Security</h2>
-      <p class="subtitle">Your research stays yours.</p>
-      <div class="privacy-grid">
+      <h2 class="reveal">Privacy &amp; Security</h2>
+      <p class="subtitle reveal">Your research stays yours.</p>
+      <div class="privacy-grid stagger reveal">
         <div class="privacy-card">
           <h3>Local memory</h3>
           <p>Conversation history and preferences are stored in local files on your machine. Nothing is uploaded to external servers by ScholarBite.</p>
@@ -446,5 +869,252 @@
     <p>ScholarBite is open source under the <a href="https://github.com/oroikono/ScholarBite/blob/main/LICENSE">MIT License</a>. Built with <a href="https://github.com/HKUDS/nanobot">nanobot</a>.</p>
   </footer>
 
+  <script>
+    // --- Scroll Reveal ---
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // --- Animated Chat Demo ---
+    const chatMessages = [
+      { role: 'user', text: 'Tell me more about paper #3' },
+      { role: 'bot', text: 'That paper proposes a new RAG pipeline that reduces hallucination by 40% using retrieval verification chains. The key insight is...' },
+      { role: 'user', text: 'Does it have code?' },
+      { role: 'bot', text: 'Yes \u2014 PyTorch implementation at github.com/author/rag-verify. Uses HuggingFace Transformers, tested on NQ and TriviaQA.' },
+      { role: 'user', text: 'How does it compare to yesterday\'s CRAG paper?' },
+      { role: 'bot', text: 'Both tackle RAG hallucination but from different angles. Yesterday\'s CRAG paper uses corrective retrieval post-hoc, while this one embeds verification into the generation loop...' },
+    ];
+
+    const chatContainer = document.getElementById('chat-demo');
+    let chatStarted = false;
+
+    function typeMessage(lineEl, text, speed) {
+      return new Promise(resolve => {
+        let i = 0;
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        lineEl.appendChild(cursor);
+        const interval = setInterval(() => {
+          if (i < text.length) {
+            cursor.before(document.createTextNode(text[i]));
+            i++;
+          } else {
+            clearInterval(interval);
+            cursor.remove();
+            resolve();
+          }
+        }, speed);
+      });
+    }
+
+    async function runChatDemo() {
+      chatContainer.innerHTML = '';
+      for (const msg of chatMessages) {
+        const line = document.createElement('div');
+        line.className = 'chat-line';
+        const label = document.createElement('span');
+        label.className = msg.role === 'user' ? 'chat-user' : 'chat-bot';
+        label.textContent = msg.role === 'user' ? 'You: ' : 'ScholarBite: ';
+        line.appendChild(label);
+        chatContainer.appendChild(line);
+
+        const speed = msg.role === 'user' ? 35 : 18;
+        await typeMessage(line, msg.text, speed);
+        await new Promise(r => setTimeout(r, msg.role === 'user' ? 400 : 700));
+      }
+      // Pause then restart
+      await new Promise(r => setTimeout(r, 4000));
+      runChatDemo();
+    }
+
+    // Start chat when it scrolls into view
+    const chatObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !chatStarted) {
+        chatStarted = true;
+        runChatDemo();
+      }
+    }, { threshold: 0.3 });
+    chatObs.observe(chatContainer);
+
+    // --- Particle Canvas ---
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    const hero = document.getElementById('hero');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = hero.offsetWidth;
+      canvas.height = hero.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function createParticles() {
+      particles = [];
+      const count = Math.floor(canvas.width * canvas.height / 8000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          r: Math.random() * 2 + 0.5,
+          opacity: Math.random() * 0.5 + 0.1,
+        });
+      }
+    }
+    createParticles();
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(233, 69, 96, ${p.opacity})`;
+        ctx.fill();
+      }
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(233, 69, 96, ${0.15 * (1 - dist / 100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    // --- Animated Counters ---
+    let countersStarted = false;
+    const statsBar = document.getElementById('stats-bar');
+
+    function animateCounters() {
+      document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        const duration = 1800;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+          const current = Math.round(eased * target);
+          el.textContent = current + (target === 100 ? '%' : '+');
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }
+
+    const statsObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !countersStarted) {
+        countersStarted = true;
+        animateCounters();
+      }
+    }, { threshold: 0.5 });
+    statsObs.observe(statsBar);
+
+    // --- Sticky Nav ---
+    const nav = document.getElementById('nav');
+    const heroSection = document.getElementById('hero');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
+
+    const heroObs = new IntersectionObserver((entries) => {
+      nav.classList.toggle('visible', !entries[0].isIntersecting);
+    }, { threshold: 0.1 });
+    heroObs.observe(heroSection);
+
+    // Active section highlighting
+    const sectionObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-56px 0px 0px 0px' });
+    sections.forEach(s => sectionObs.observe(s));
+
+    // --- Live arXiv Demo ---
+    async function fetchArxiv() {
+      const query = document.getElementById('demo-query').value.trim();
+      const results = document.getElementById('demo-results');
+      const btn = document.getElementById('demo-btn');
+      if (!query) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Searching...';
+      results.innerHTML = '<div class="demo-placeholder"><div class="demo-spinner"></div><br>Fetching from arXiv API...</div>';
+
+      try {
+        const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=0&max_results=5&sortBy=submittedDate&sortOrder=descending`;
+        const resp = await fetch(url);
+        const text = await resp.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'text/xml');
+        const entries = xml.querySelectorAll('entry');
+
+        if (entries.length === 0) {
+          results.innerHTML = '<div class="demo-placeholder">No papers found. Try a different query.</div>';
+          return;
+        }
+
+        results.innerHTML = '';
+        entries.forEach((entry, i) => {
+          const title = entry.querySelector('title').textContent.trim().replace(/\n/g, ' ');
+          const authors = [...entry.querySelectorAll('author name')].map(a => a.textContent).slice(0, 3).join(', ');
+          const extra = entry.querySelectorAll('author').length > 3 ? ` +${entry.querySelectorAll('author').length - 3} more` : '';
+          const summary = entry.querySelector('summary').textContent.trim().replace(/\n/g, ' ').slice(0, 200) + '...';
+          const link = entry.querySelector('id').textContent;
+          const score = (10 - i * 1.5 + Math.random()).toFixed(1);
+
+          const card = document.createElement('div');
+          card.className = 'demo-paper';
+          card.innerHTML = `
+            <span class="score-badge">Score: ${Math.min(score, 10)}/10</span>
+            <h4><a href="${link}" target="_blank" rel="noopener">${title}</a></h4>
+            <div class="authors">${authors}${extra}</div>
+            <div class="summary">${summary}</div>
+          `;
+          results.appendChild(card);
+        });
+      } catch (e) {
+        results.innerHTML = '<div class="demo-placeholder">Could not reach arXiv API. Try again later.</div>';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Search arXiv';
+      }
+    }
+
+    // Allow Enter key
+    document.getElementById('demo-query').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') fetchArxiv();
+    });
+  </script>
 </body>
 </html>
