@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 
 export default function Section({ id, className = '', dark = false, children }) {
   return (
-    <section id={id} className={`py-20 px-6 ${dark ? 'bg-[#f0f0f5]' : ''} ${className}`}>
-      <div className="max-w-5xl mx-auto">
+    <section id={id} className={`py-20 px-6 overflow-hidden ${dark ? 'bg-[#f0f0f5]' : ''} ${className}`}>
+      <div className="max-w-5xl mx-auto w-full">
         {children}
       </div>
     </section>

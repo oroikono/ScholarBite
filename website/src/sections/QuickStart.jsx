@@ -25,7 +25,7 @@ export default function QuickStart() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="bg-dark rounded-2xl p-7 max-w-2xl mx-auto font-mono text-sm leading-7 shadow-2xl shadow-dark/50 overflow-x-auto"
+        className="bg-dark rounded-2xl p-7 max-w-2xl mx-auto w-full font-mono text-sm leading-7 shadow-2xl shadow-dark/50 overflow-x-auto"
       >
         {lines.map((l, i) => {
           if (l.type === 'blank') return <div key={i} className="h-4" />

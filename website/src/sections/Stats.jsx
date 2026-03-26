@@ -31,8 +31,8 @@ function Counter({ target, suffix }) {
 
 export default function Stats() {
   return (
-    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-14 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-14 px-6 overflow-hidden">
+      <div className="max-w-5xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
