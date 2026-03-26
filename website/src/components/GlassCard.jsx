@@ -7,7 +7,7 @@ export default function GlassCard({ children, delay = 0, className = '' }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -8, scale: 1.02 }}
+      whileHover={{ y: -8 }}
       className={`
         h-full bg-white/70 backdrop-blur-xl border border-white/30
         rounded-2xl p-7 cursor-default

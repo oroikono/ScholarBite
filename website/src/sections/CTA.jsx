@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 export default function CTA() {
   return (
-    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-24 px-6 text-center overflow-hidden">
+    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-24 px-8 text-center">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

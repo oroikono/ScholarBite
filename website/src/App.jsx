@@ -22,7 +22,7 @@ export default function App() {
   }, [])
 
   return (
-    <>
+    <div className="w-full overflow-x-hidden">
       <Nav visible={scrolled} />
       <Hero />
       <Stats />
@@ -35,6 +35,6 @@ export default function App() {
       <Privacy />
       <CTA />
       <Footer />
-    </>
+    </div>
   )
 }

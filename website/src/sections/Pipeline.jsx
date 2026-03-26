@@ -12,7 +12,7 @@ export default function Pipeline() {
   return (
     <Section id="pipeline" dark>
       <SectionTitle sub="Metadata-first architecture. Fast, cheap, accurate.">How it works</SectionTitle>
-      <div className="grid md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {steps.map((s, i) => (
           <motion.div
             key={s.num}

@@ -15,7 +15,7 @@ export default function Features() {
   return (
     <Section id="features">
       <SectionTitle sub="Stop scrolling arXiv. Start reading what matters.">What it does</SectionTitle>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {features.map((f, i) => (
           <GlassCard key={f.title} delay={i * 0.08}>
             <motion.div

@@ -19,7 +19,7 @@ export default function Nav({ visible }) {
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-dark/85 border-b border-white/8"
         >
-          <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="max-w-4xl mx-auto px-8 h-14 flex items-center justify-between">
             <a href="#hero" className="font-serif text-xl font-bold text-white no-underline">
               Scholar<span className="text-accent">Bite</span>
             </a>
