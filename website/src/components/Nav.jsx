@@ -23,12 +23,23 @@ export default function Nav({ visible }) {
             <a href="#hero" className="font-serif text-xl font-bold text-white no-underline">
               Scholar<span className="text-accent">Bite</span>
             </a>
-            <div className="flex gap-6">
+            <div className="hidden md:flex gap-6">
               {links.map(l => (
                 <a
                   key={l.href}
                   href={l.href}
                   className="text-sm text-gray-400 hover:text-white transition-colors no-underline"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+            <div className="flex md:hidden gap-3">
+              {links.slice(0, 3).map(l => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="text-xs text-gray-400 hover:text-white transition-colors no-underline"
                 >
                   {l.label}
                 </a>

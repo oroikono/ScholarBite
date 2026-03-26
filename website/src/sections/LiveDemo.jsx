@@ -51,19 +51,19 @@ export default function LiveDemo() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="flex gap-3 max-w-xl mx-auto mb-10 flex-wrap justify-center"
+        className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto mb-10"
       >
         <input
           value={query}
           onChange={e => setQuery(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && search()}
           placeholder="e.g. transformer, diffusion model, RLHF..."
-          className="flex-1 min-w-[200px] px-5 py-3.5 rounded-xl border-2 border-gray-200 bg-white text-dark outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all text-base"
+          className="flex-1 px-5 py-3.5 rounded-xl border-2 border-gray-200 bg-white text-dark outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all text-base"
         />
         <button
           onClick={search}
           disabled={loading}
-          className="px-7 py-3.5 rounded-xl bg-accent text-white font-semibold hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none"
+          className="px-7 py-3.5 rounded-xl bg-accent text-white font-semibold hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-none shrink-0"
         >
           {loading ? 'Searching...' : 'Search arXiv'}
         </button>

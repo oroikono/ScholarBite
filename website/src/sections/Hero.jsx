@@ -4,7 +4,7 @@ import ParticleField from '../components/ParticleField'
 
 export default function Hero() {
   return (
-    <div id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-dark via-dark2 to-dark3">
+    <div id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-dark via-dark2 to-dark3">
       {/* 3D particle background */}
       <div className="absolute inset-0">
         <Canvas camera={{ position: [0, 0, 5], fov: 60 }} dpr={[1, 2]}>
@@ -18,12 +18,12 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#fafafa] to-transparent pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6">
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="font-serif text-6xl md:text-8xl font-bold text-white tracking-tight mb-4"
+          className="font-serif text-5xl sm:text-6xl md:text-8xl font-bold text-white tracking-tight mb-6"
         >
           Scholar<span className="text-accent">Bite</span>
         </motion.h1>
@@ -32,7 +32,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           Your AI-powered daily arXiv research companion. Fresh papers, summarized and ranked, delivered every morning.
         </motion.p>
@@ -56,23 +56,23 @@ export default function Hero() {
             Try Live Demo
           </a>
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center pt-2"
-          >
-            <div className="w-1 h-2 bg-accent rounded-full" />
-          </motion.div>
-        </motion.div>
       </div>
+
+      {/* Scroll indicator - positioned relative to the hero container */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+          className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center pt-2"
+        >
+          <div className="w-1 h-2 bg-accent rounded-full" />
+        </motion.div>
+      </motion.div>
     </div>
   )
 }
