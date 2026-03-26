@@ -581,6 +581,15 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* --- No-JS fallback: show everything if JS fails --- */
+    .no-js .reveal,
+    .no-js .reveal-left,
+    .no-js .reveal-right,
+    .no-js .stagger > * {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
     /* --- Scroll Reveal --- */
     .reveal {
       opacity: 0;
@@ -646,7 +655,7 @@
     }
   </style>
 </head>
-<body>
+<body class="no-js">
 
   <!-- Sticky Nav -->
   <nav class="nav" id="nav">
@@ -800,12 +809,12 @@
         <div class="provider-card">
           <h3>OpenRouter</h3>
           <div class="cost">~$0.01/day</div>
-          <p>Access Claude, GPT-4, Gemini, and more with one key.</p>
+          <p>Access Sonnet, GPT-4, Gemini, and more with one key.</p>
         </div>
         <div class="provider-card">
           <h3>Anthropic</h3>
           <div class="cost">~$0.05/day</div>
-          <p>Claude directly. Great for nuanced research analysis.</p>
+          <p>Anthropic API directly. Great for nuanced research analysis.</p>
         </div>
         <div class="provider-card">
           <h3>OpenAI</h3>
@@ -870,201 +879,213 @@
   </footer>
 
   <script>
-    // --- Scroll Reveal ---
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    // Remove no-js class immediately so animations can work
+    document.body.classList.remove('no-js');
 
-    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
-      revealObserver.observe(el);
-    });
-
-    // --- Animated Chat Demo ---
-    const chatMessages = [
-      { role: 'user', text: 'Tell me more about paper #3' },
-      { role: 'bot', text: 'That paper proposes a new RAG pipeline that reduces hallucination by 40% using retrieval verification chains. The key insight is...' },
-      { role: 'user', text: 'Does it have code?' },
-      { role: 'bot', text: 'Yes \u2014 PyTorch implementation at github.com/author/rag-verify. Uses HuggingFace Transformers, tested on NQ and TriviaQA.' },
-      { role: 'user', text: 'How does it compare to yesterday\'s CRAG paper?' },
-      { role: 'bot', text: 'Both tackle RAG hallucination but from different angles. Yesterday\'s CRAG paper uses corrective retrieval post-hoc, while this one embeds verification into the generation loop...' },
-    ];
-
-    const chatContainer = document.getElementById('chat-demo');
-    let chatStarted = false;
-
-    function typeMessage(lineEl, text, speed) {
-      return new Promise(resolve => {
-        let i = 0;
-        const cursor = document.createElement('span');
-        cursor.className = 'typing-cursor';
-        lineEl.appendChild(cursor);
-        const interval = setInterval(() => {
-          if (i < text.length) {
-            cursor.before(document.createTextNode(text[i]));
-            i++;
-          } else {
-            clearInterval(interval);
-            cursor.remove();
-            resolve();
+    // --- 1. Scroll Reveal ---
+    try {
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
           }
-        }, speed);
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
+        revealObserver.observe(el);
       });
-    }
+    } catch(e) { console.error('Scroll reveal error:', e); }
 
-    async function runChatDemo() {
-      chatContainer.innerHTML = '';
-      for (const msg of chatMessages) {
-        const line = document.createElement('div');
-        line.className = 'chat-line';
-        const label = document.createElement('span');
-        label.className = msg.role === 'user' ? 'chat-user' : 'chat-bot';
-        label.textContent = msg.role === 'user' ? 'You: ' : 'ScholarBite: ';
-        line.appendChild(label);
-        chatContainer.appendChild(line);
+    // --- 2. Animated Chat Demo ---
+    try {
+      var chatMessages = [
+        { role: 'user', text: 'Tell me more about paper #3' },
+        { role: 'bot', text: 'That paper proposes a new RAG pipeline that reduces hallucination by 40% using retrieval verification chains. The key insight is...' },
+        { role: 'user', text: 'Does it have code?' },
+        { role: 'bot', text: 'Yes \u2014 PyTorch implementation at github.com/author/rag-verify. Uses HuggingFace Transformers, tested on NQ and TriviaQA.' },
+        { role: 'user', text: 'How does it compare to yesterday\'s CRAG paper?' },
+        { role: 'bot', text: 'Both tackle RAG hallucination but from different angles. Yesterday\'s CRAG paper uses corrective retrieval post-hoc, while this one embeds verification into the generation loop...' },
+      ];
 
-        const speed = msg.role === 'user' ? 35 : 18;
-        await typeMessage(line, msg.text, speed);
-        await new Promise(r => setTimeout(r, msg.role === 'user' ? 400 : 700));
-      }
-      // Pause then restart
-      await new Promise(r => setTimeout(r, 4000));
-      runChatDemo();
-    }
+      var chatContainer = document.getElementById('chat-demo');
+      var chatStarted = false;
 
-    // Start chat when it scrolls into view
-    const chatObs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !chatStarted) {
-        chatStarted = true;
-        runChatDemo();
-      }
-    }, { threshold: 0.3 });
-    chatObs.observe(chatContainer);
-
-    // --- Particle Canvas ---
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    const hero = document.getElementById('hero');
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = hero.offsetWidth;
-      canvas.height = hero.offsetHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    function createParticles() {
-      particles = [];
-      const count = Math.floor(canvas.width * canvas.height / 8000);
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
-          r: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.5 + 0.1,
+      function typeMessage(lineEl, text, speed) {
+        return new Promise(function(resolve) {
+          var i = 0;
+          var cursor = document.createElement('span');
+          cursor.className = 'typing-cursor';
+          lineEl.appendChild(cursor);
+          var interval = setInterval(function() {
+            if (i < text.length) {
+              cursor.before(document.createTextNode(text[i]));
+              i++;
+            } else {
+              clearInterval(interval);
+              cursor.remove();
+              resolve();
+            }
+          }, speed);
         });
       }
-    }
-    createParticles();
 
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+      async function runChatDemo() {
+        chatContainer.innerHTML = '';
+        for (var k = 0; k < chatMessages.length; k++) {
+          var msg = chatMessages[k];
+          var line = document.createElement('div');
+          line.className = 'chat-line';
+          var label = document.createElement('span');
+          label.className = msg.role === 'user' ? 'chat-user' : 'chat-bot';
+          label.textContent = msg.role === 'user' ? 'You: ' : 'ScholarBite: ';
+          line.appendChild(label);
+          chatContainer.appendChild(line);
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(233, 69, 96, ${p.opacity})`;
-        ctx.fill();
+          var speed = msg.role === 'user' ? 35 : 18;
+          await typeMessage(line, msg.text, speed);
+          await new Promise(function(r) { setTimeout(r, msg.role === 'user' ? 400 : 700); });
+        }
+        await new Promise(function(r) { setTimeout(r, 4000); });
+        runChatDemo();
       }
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(233, 69, 96, ${0.15 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
+      var chatObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !chatStarted) {
+          chatStarted = true;
+          runChatDemo();
+        }
+      }, { threshold: 0.3 });
+      chatObs.observe(chatContainer);
+    } catch(e) { console.error('Chat demo error:', e); }
+
+    // --- 3. Particle Canvas ---
+    try {
+      var canvas = document.getElementById('particles');
+      var ctx = canvas.getContext('2d');
+      var heroEl = document.getElementById('hero');
+      var particles = [];
+
+      function resizeCanvas() {
+        canvas.width = heroEl.offsetWidth;
+        canvas.height = heroEl.offsetHeight;
+        if (particles.length === 0) createParticles();
+      }
+
+      function createParticles() {
+        particles = [];
+        var count = Math.min(Math.floor(canvas.width * canvas.height / 8000), 120);
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 2 + 0.5,
+            opacity: Math.random() * 0.5 + 0.1,
+          });
+        }
+      }
+
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(233, 69, 96, ' + p.opacity + ')';
+          ctx.fill();
+        }
+
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'rgba(233, 69, 96, ' + (0.15 * (1 - dist / 100)) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
+        requestAnimationFrame(drawParticles);
       }
-      requestAnimationFrame(drawParticles);
-    }
-    drawParticles();
+      drawParticles();
+    } catch(e) { console.error('Particles error:', e); }
 
-    // --- Animated Counters ---
-    let countersStarted = false;
-    const statsBar = document.getElementById('stats-bar');
+    // --- 4. Animated Counters ---
+    try {
+      var countersStarted = false;
+      var statsBar = document.getElementById('stats-bar');
 
-    function animateCounters() {
-      document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-        const target = parseInt(el.dataset.target);
-        const duration = 1800;
-        const start = performance.now();
-        function tick(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-          const current = Math.round(eased * target);
-          el.textContent = current + (target === 100 ? '%' : '+');
-          if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      });
-    }
-
-    const statsObs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !countersStarted) {
-        countersStarted = true;
-        animateCounters();
+      function animateCounters() {
+        document.querySelectorAll('.stat-number[data-target]').forEach(function(el) {
+          var target = parseInt(el.dataset.target);
+          var duration = 1800;
+          var start = performance.now();
+          function tick(now) {
+            var progress = Math.min((now - start) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.round(eased * target);
+            el.textContent = current + (target === 100 ? '%' : '+');
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
       }
-    }, { threshold: 0.5 });
-    statsObs.observe(statsBar);
 
-    // --- Sticky Nav ---
-    const nav = document.getElementById('nav');
-    const heroSection = document.getElementById('hero');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const sections = document.querySelectorAll('section[id]');
-
-    const heroObs = new IntersectionObserver((entries) => {
-      nav.classList.toggle('visible', !entries[0].isIntersecting);
-    }, { threshold: 0.1 });
-    heroObs.observe(heroSection);
-
-    // Active section highlighting
-    const sectionObs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(l => l.classList.remove('active'));
-          const link = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-          if (link) link.classList.add('active');
+      var statsObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting && !countersStarted) {
+          countersStarted = true;
+          animateCounters();
         }
-      });
-    }, { threshold: 0.3, rootMargin: '-56px 0px 0px 0px' });
-    sections.forEach(s => sectionObs.observe(s));
+      }, { threshold: 0.5 });
+      statsObs.observe(statsBar);
+    } catch(e) { console.error('Counters error:', e); }
 
-    // --- Live arXiv Demo ---
+    // --- 5. Sticky Nav ---
+    try {
+      var nav = document.getElementById('nav');
+      var heroSection = document.getElementById('hero');
+      var navLinks = document.querySelectorAll('.nav-links a');
+      var sections = document.querySelectorAll('section[id]');
+
+      var heroObs = new IntersectionObserver(function(entries) {
+        nav.classList.toggle('visible', !entries[0].isIntersecting);
+      }, { threshold: 0.1 });
+      heroObs.observe(heroSection);
+
+      var sectionObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function(l) { l.classList.remove('active'); });
+            var link = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+            if (link) link.classList.add('active');
+          }
+        });
+      }, { threshold: 0.3, rootMargin: '-56px 0px 0px 0px' });
+      sections.forEach(function(s) { sectionObs.observe(s); });
+    } catch(e) { console.error('Sticky nav error:', e); }
+
+    // --- 6. Live arXiv Demo ---
     async function fetchArxiv() {
-      const query = document.getElementById('demo-query').value.trim();
-      const results = document.getElementById('demo-results');
-      const btn = document.getElementById('demo-btn');
+      var query = document.getElementById('demo-query').value.trim();
+      var results = document.getElementById('demo-results');
+      var btn = document.getElementById('demo-btn');
       if (!query) return;
 
       btn.disabled = true;
@@ -1072,12 +1093,12 @@
       results.innerHTML = '<div class="demo-placeholder"><div class="demo-spinner"></div><br>Fetching from arXiv API...</div>';
 
       try {
-        const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=0&max_results=5&sortBy=submittedDate&sortOrder=descending`;
-        const resp = await fetch(url);
-        const text = await resp.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(text, 'text/xml');
-        const entries = xml.querySelectorAll('entry');
+        var url = 'https://export.arxiv.org/api/query?search_query=all:' + encodeURIComponent(query) + '&start=0&max_results=5&sortBy=submittedDate&sortOrder=descending';
+        var resp = await fetch(url);
+        var text = await resp.text();
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(text, 'text/xml');
+        var entries = xml.querySelectorAll('entry');
 
         if (entries.length === 0) {
           results.innerHTML = '<div class="demo-placeholder">No papers found. Try a different query.</div>';
@@ -1085,22 +1106,22 @@
         }
 
         results.innerHTML = '';
-        entries.forEach((entry, i) => {
-          const title = entry.querySelector('title').textContent.trim().replace(/\n/g, ' ');
-          const authors = [...entry.querySelectorAll('author name')].map(a => a.textContent).slice(0, 3).join(', ');
-          const extra = entry.querySelectorAll('author').length > 3 ? ` +${entry.querySelectorAll('author').length - 3} more` : '';
-          const summary = entry.querySelector('summary').textContent.trim().replace(/\n/g, ' ').slice(0, 200) + '...';
-          const link = entry.querySelector('id').textContent;
-          const score = (10 - i * 1.5 + Math.random()).toFixed(1);
+        entries.forEach(function(entry, i) {
+          var title = entry.querySelector('title').textContent.trim().replace(/\n/g, ' ');
+          var authorNodes = entry.querySelectorAll('author name');
+          var authors = Array.from(authorNodes).map(function(a) { return a.textContent; }).slice(0, 3).join(', ');
+          var extra = entry.querySelectorAll('author').length > 3 ? ' +' + (entry.querySelectorAll('author').length - 3) + ' more' : '';
+          var summary = entry.querySelector('summary').textContent.trim().replace(/\n/g, ' ').slice(0, 200) + '...';
+          var link = entry.querySelector('id').textContent;
+          var score = Math.min((10 - i * 1.5 + Math.random()), 10).toFixed(1);
 
-          const card = document.createElement('div');
+          var card = document.createElement('div');
           card.className = 'demo-paper';
-          card.innerHTML = `
-            <span class="score-badge">Score: ${Math.min(score, 10)}/10</span>
-            <h4><a href="${link}" target="_blank" rel="noopener">${title}</a></h4>
-            <div class="authors">${authors}${extra}</div>
-            <div class="summary">${summary}</div>
-          `;
+          card.innerHTML =
+            '<span class="score-badge">Score: ' + score + '/10</span>' +
+            '<h4><a href="' + link + '" target="_blank" rel="noopener">' + title + '</a></h4>' +
+            '<div class="authors">' + authors + extra + '</div>' +
+            '<div class="summary">' + summary + '</div>';
           results.appendChild(card);
         });
       } catch (e) {
@@ -1111,10 +1132,11 @@
       }
     }
 
-    // Allow Enter key
-    document.getElementById('demo-query').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') fetchArxiv();
-    });
+    try {
+      document.getElementById('demo-query').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') fetchArxiv();
+      });
+    } catch(e) { console.error('arXiv demo error:', e); }
   </script>
 </body>
 </html>
