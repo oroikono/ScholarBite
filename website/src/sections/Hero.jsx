@@ -1,24 +1,53 @@
-import { Canvas } from '@react-three/fiber'
 import { motion } from 'framer-motion'
-import ParticleField from '../components/ParticleField'
+
+function Particles() {
+  const dots = Array.from({ length: 60 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 5,
+    duration: Math.random() * 8 + 6,
+    opacity: Math.random() * 0.5 + 0.1,
+  }))
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {dots.map(d => (
+        <div
+          key={d.id}
+          className="absolute rounded-full"
+          style={{
+            left: d.left,
+            top: d.top,
+            width: d.size,
+            height: d.size,
+            backgroundColor: `rgba(233, 69, 96, ${d.opacity})`,
+            animation: `float ${d.duration}s ease-in-out ${d.delay}s infinite alternate`,
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes float {
+          0% { transform: translate(0, 0); }
+          100% { transform: translate(${Math.random() > 0.5 ? '' : '-'}30px, ${Math.random() > 0.5 ? '' : '-'}40px); }
+        }
+      `}</style>
+    </div>
+  )
+}
 
 export default function Hero() {
   return (
     <div id="hero" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-dark via-dark2 to-dark3">
-      {/* 3D particle background */}
-      <div className="absolute inset-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 60 }} dpr={[1, 2]}>
-          <ambientLight intensity={0.3} />
-          <ParticleField count={300} />
-        </Canvas>
-      </div>
+      <Particles />
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-dark/40 pointer-events-none" />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#fafafa] to-transparent pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-8 max-w-3xl mx-auto">
+      <div className="relative z-10 text-center" style={{ padding: '0 2rem', maxWidth: '700px' }}>
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,7 +61,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-10 leading-relaxed"
         >
           Your AI-powered daily arXiv research companion. Fresh papers, summarized and ranked, delivered every morning.
         </motion.p>
@@ -58,7 +87,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator - positioned relative to the hero container */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

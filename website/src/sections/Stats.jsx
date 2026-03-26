@@ -31,8 +31,8 @@ function Counter({ target, suffix }) {
 
 export default function Stats() {
   return (
-    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-14">
-      <div className="max-w-4xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div className="bg-gradient-to-br from-dark via-dark2 to-dark3 py-14" style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', maxWidth: '900px', padding: '0 2rem' }} className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {stats.map((s, i) => (
           <motion.div
             key={s.label}
