@@ -51,7 +51,8 @@ export default function LiveDemo() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto mb-10"
+        className="flex flex-col sm:flex-row gap-3 mb-10"
+        style={{ maxWidth: '36rem', margin: '0 auto' }}
       >
         <input
           value={query}
@@ -69,7 +70,7 @@ export default function LiveDemo() {
         </button>
       </motion.div>
 
-      <div className="max-w-2xl mx-auto">
+      <div style={{ maxWidth: '42rem', margin: '0 auto' }}>
         {loading && (
           <div className="text-center py-10">
             <div className="w-8 h-8 border-3 border-gray-200 border-t-accent rounded-full animate-spin mx-auto mb-3" />

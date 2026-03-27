@@ -79,7 +79,8 @@ export default function ChatDemo() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="bg-dark rounded-2xl p-8 max-w-2xl mx-auto w-full font-mono text-sm leading-7 shadow-2xl shadow-dark/50"
+        className="bg-dark rounded-2xl p-8 font-mono text-sm leading-7 shadow-2xl shadow-dark/50"
+        style={{ maxWidth: '42rem', margin: '0 auto' }}
       >
         {messages.slice(0, visibleCount + 1).map((msg, i) => (
           <TypingLine
